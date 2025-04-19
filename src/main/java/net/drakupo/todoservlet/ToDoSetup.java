@@ -3,12 +3,15 @@ package net.drakupo.todoservlet;
 import org.hibernate.*;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import org.hibernate.service.ServiceRegistry;
 import java.util.Properties;
 
 public class ToDoSetup {
 
+    public static Logger logger = LogManager.getLogger("debug");
     private static SessionFactory sessionFactory;
 
     public static SessionFactory getSessionFactory() {
@@ -34,10 +37,12 @@ public class ToDoSetup {
                 ServiceRegistry sr = new StandardServiceRegistryBuilder().applySettings(config.getProperties()).build();
 
                 sessionFactory = config.buildSessionFactory(sr);
+                logger.info("Hibernate session factory created.");
 
                 return sessionFactory;
             } catch (Exception e) {
                 System.err.println("Couldn't create SessionFactory: " + e);
+                logger.error("Couldn't create SessionFactory: " + e.getMessage());
             }
         }
         return sessionFactory;

@@ -1,0 +1,22 @@
+<configuration status="info">
+    <Properties>
+        <Property name="layout">%d [%t] %-5level %logger - %m%n</Property>
+    </Properties>
+    <Appenders>
+        <Console name="console" level="error">
+            <PatternLayout pattern="${layout}" />
+        </Console>
+        <File name="LogFile" fileName="app.log">
+            <JSONTemplateLayout eventTemplateUri="Layout.json" locationInfoEnabled="true" eventDelimiter="\n"/>
+        </File>
+    </Appenders>
+    <Loggers>
+        <Logger name="debug" level="debug" additivity="false">
+            <AppenderRef ref="LogFile" />
+            <AppenderRef ref="console"/>
+        </Logger>
+        <Root level="error">
+            <AppenderRef ref="console" />
+        </Root>
+    </Loggers>
+</configuration>

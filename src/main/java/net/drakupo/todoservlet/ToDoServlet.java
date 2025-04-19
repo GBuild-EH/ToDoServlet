@@ -9,10 +9,13 @@ import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 @WebServlet({"/", "/list"})
 public class ToDoServlet extends HttpServlet {
     private ToDoAccess access;
+    public static Logger logger = LogManager.getLogger("debug");
 
     public void init() {
         access = new ToDoAccess();
@@ -47,6 +50,7 @@ public class ToDoServlet extends HttpServlet {
                     break;
             }
         } catch (SQLException e) {
+            logger.error("Invalid request.");
             throw new ServletException(e);
         }
 
@@ -87,6 +91,7 @@ public class ToDoServlet extends HttpServlet {
                     newTask = new ToDoTask(id, description, dueDate, startDate);
             }
         }
+        logger.info("New Task created: " + newTask);
         access.addTask(newTask);
         response.sendRedirect("list");
     }
@@ -99,12 +104,14 @@ public class ToDoServlet extends HttpServlet {
         boolean done = Boolean.parseBoolean(request.getParameter("done"));
         ToDoTask updateTask = new ToDoTask(id, description, dueDate, startDate);
         updateTask.setDone(done);
+        logger.info("Task edited: " + updateTask);
         access.updateTask(updateTask);
         response.sendRedirect("list");
     }
 
     private void deleteTask(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException {
         int id = Integer.parseInt(request.getParameter("id"));
+        logger.info("Deleting task.");
         access.deleteTask(id);
         response.sendRedirect("list");
     }

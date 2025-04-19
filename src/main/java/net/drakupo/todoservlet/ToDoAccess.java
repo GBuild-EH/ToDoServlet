@@ -2,11 +2,14 @@ package net.drakupo.todoservlet;
 
 import java.util.*;
 import org.hibernate.*;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 public class ToDoAccess {
 
     public ToDoAccess() {}
 
+    public static Logger logger = LogManager.getLogger("debug");
     public int genID() {
 
         Transaction tx = null;
@@ -18,7 +21,7 @@ public class ToDoAccess {
             } else return 1;
         } catch (HibernateException e) {
             if (tx!=null) tx.rollback();
-            e.printStackTrace();
+            logger.error(e);
             return -1;
         }
     }
@@ -33,7 +36,7 @@ public class ToDoAccess {
             if (tx != null) {
                 tx.rollback();
             }
-            e.printStackTrace();
+            logger.error(e);
         }
     }
 
@@ -49,7 +52,7 @@ public class ToDoAccess {
             tx.commit();
         } catch (HibernateException e) {
             if (tx != null) tx.rollback();
-            e.printStackTrace();
+            logger.error(e);
         }
     }
 
@@ -62,7 +65,7 @@ public class ToDoAccess {
             tx.commit();
         } catch (HibernateException e) {
             if (tx != null) tx.rollback();
-            e.printStackTrace();
+            logger.error(e);
         }
         return task;
     }
@@ -77,7 +80,7 @@ public class ToDoAccess {
             tx.commit();
         } catch (HibernateException e) {
             if (tx != null) tx.rollback();
-            e.printStackTrace();
+            logger.error(e);
         }
         return tasks;
     }
@@ -90,7 +93,7 @@ public class ToDoAccess {
             tx.commit();
         } catch (HibernateException e) {
             if (tx != null) tx.rollback();
-            e.printStackTrace();
+            logger.error(e);
         }
     }
 }

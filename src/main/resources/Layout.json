@@ -1,0 +1,18 @@
+{
+  "instant": {
+    "$resolver" : "timestamp",
+    "pattern": {
+      "format": "MM-dd-yyyy'T'HH:mm:ss.SSS",
+      "timezone": "America/New_York"
+    }
+  },
+  "severity": {
+    "$resolver": "level",
+    "field": "name"
+  },
+
+  "message": {
+    "$resolver": "message",
+    "stringified": true
+  }
+}

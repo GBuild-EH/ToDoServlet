@@ -2,7 +2,8 @@ package net.drakupo.todoservlet;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import jakarta.persistence.*;
 
 @Entity
@@ -10,11 +11,15 @@ import jakarta.persistence.*;
 
 public class ToDoTask
 {
+
+    public static Logger logger = LogManager.getLogger("debug");
+
     @Id @Column(name = "taskId") private Integer id;
     @Column(name = "taskDesc") private String description;
     @Column(name = "taskDue") private LocalDate dueDate;
     @Column(name = "taskStart") private LocalDate startDate;
     @Column(name = "taskDone") private boolean done;
+
 
     public ToDoTask () {}
 
@@ -24,6 +29,7 @@ public class ToDoTask
         this.dueDate = due;
         this.startDate = start;
         this.done = false;
+        logger.info("Object created, dates specified.");
     }
 
     //If no start date provided, assume today as the start
@@ -40,6 +46,7 @@ public class ToDoTask
         this.dueDate = setDue;
         this.startDate = LocalDate.now();
         this.done = false;
+        logger.info("Object created with default dates.");
     }
 
     //Getter methods and completion toggle
